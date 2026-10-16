@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Get To Know Me & Them</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Corben:wght@400;700&family=Pacifico&family=Quicksand:wght@500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap">
+<style>
+/* Layout: fill-in form (left) + live pink carrd yumeship card (right); stacks with a tab switch on phones. Light on purpose. */
+:root{
+  --desk:#ffffff; --gingham:rgba(248,196,216,.42);
+  --card:#f6c6d8; --card-dot:rgba(255,255,255,.55); --card-edge:#e9a6bf;
+  --panel:#ffffff; --panel-dot:#fbe3ec; --soft:#fdf0f5; --band:#f3b5cb;
+  --head:#e98bb0; --ink:#a35a7c; --ink2:#cf8eab; --line:#f3bccf; --white:#ffffff;
+  --serif:"Corben",Georgia,serif; --script:"Pacifico",cursive;
+  --ui:"Quicksand","M PLUS Rounded 1c",system-ui,sans-serif;
+  --body:"M PLUS Rounded 1c","Quicksand",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background-color:var(--desk);background-image:linear-gradient(90deg,var(--gingham) 50%,transparent 50%),linear-gradient(var(--gingham) 50%,transparent 50%);background-size:34px 34px;background-attachment:fixed;
+  color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+button,input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.15;margin:0;color:var(--head);text-wrap:balance}
+:focus-visible{outline:2px dashed var(--head);outline-offset:2px}
+.top{max-width:1180px;margin:0 auto 16px;text-align:center}
+.top h1{font-family:var(--script);font-weight:400;font-size:clamp(38px,7.5vw,64px);line-height:1.5;padding-bottom:4px;text-shadow:2px 2px 0 var(--white);transform:rotate(-2deg)}
+.top p{margin:10px auto 0;max-width:60ch;font-family:var(--ui);font-weight:600;color:var(--ink);background:rgba(255,255,255,.85);display:inline-block;padding:4px 14px;border-radius:999px}
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);gap:22px;align-items:start}
+.switch{display:none;max-width:1180px;margin:0 auto 14px;gap:8px;justify-content:center}
+.pane{background-color:var(--card);background-image:radial-gradient(var(--card-dot) 1.6px,transparent 2px);background-size:14px 14px;border-radius:16px;padding:12px;box-shadow:8px 8px 0 var(--card-edge)}
+.inner{background:var(--panel);border-radius:10px;overflow:hidden}
+.formpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 36px);display:flex;flex-direction:column}
+.formpane .inner{overflow:auto;flex:1;scrollbar-width:thin;scrollbar-color:var(--band) var(--soft)}
+.formpane .inner::-webkit-scrollbar{width:10px}
+.formpane .inner::-webkit-scrollbar-track{background:var(--soft);border-radius:10px}
+.formpane .inner::-webkit-scrollbar-thumb{background:var(--band);border-radius:10px;border:2px solid var(--soft)}
+.formpane .inner::-webkit-scrollbar-thumb:hover{background:var(--head)}
+.formpane .inner::-webkit-scrollbar-button{display:none;height:0}
+.pane-title{display:flex;align-items:center;gap:8px;padding:0 4px 10px}
+.pane-title h2{flex:1;color:var(--white);font-size:18px;text-shadow:0 2px 0 var(--card-edge)}
+.band{background:var(--band);color:var(--white);font-family:var(--serif);font-weight:700;font-size:15.5px;text-align:center;padding:3px 12px}
+.pad{padding:14px 16px}
+.btn{border:2px solid var(--line);background:var(--white);border-radius:6px;padding:3px 12px;cursor:pointer;font-family:var(--ui);font-weight:700;font-size:13px;color:var(--head)}
+.btn.primary{background:var(--head);border-color:var(--head);color:var(--white)}
+.btn:hover{border-color:var(--head)}
+/* form */
+details.sec summary{list-style:none;cursor:pointer;display:block}
+details.sec summary::-webkit-details-marker{display:none}
+details.sec summary .band{position:relative}
+details.sec summary .band::after{content:"▼";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;transition:transform .2s}
+details.sec[open] summary .band::after{transform:translateY(-50%) rotate(180deg)}
+.fbody{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.f{display:flex;flex-direction:column;gap:3px}
+.f > span{font-family:var(--ui);font-weight:700;font-size:12.5px;color:var(--head)}
+.f input[type=text],.f textarea,.f select{width:100%;border:2px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--white);font-size:14px;color:#7d3f5d}
+.f textarea{min-height:70px;resize:vertical}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sub{font-family:var(--serif);font-weight:700;font-size:13.5px;color:var(--head);display:flex;align-items:center;gap:8px;margin-top:4px}
+.sub::after{content:"";flex:1;border-top:2px dashed var(--line)}
+.opts{display:flex;flex-wrap:wrap;gap:5px}
+.opts label{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);border-radius:999px;padding:1px 9px;font-size:12.5px;cursor:pointer;background:var(--white)}
+.opts input{accent-color:var(--head)}
+.pairrow{display:flex;flex-direction:column;gap:3px}
+.pairrow > span{font-size:12px;color:var(--ink2);font-family:var(--ui);font-weight:700}
+.tagpick{display:flex;flex-wrap:wrap;gap:5px}
+.tagpick button{font-family:var(--ui);font-weight:700;font-size:12px;padding:1px 10px;border-radius:999px;border:1.5px dashed var(--line);background:var(--white);color:var(--ink2);cursor:pointer}
+.tagpick button[aria-pressed="true"]{background:var(--band);border:1.5px solid var(--band);color:var(--white)}
+.tagpick .plus{border-style:solid;border-color:var(--head);color:var(--head);background:var(--soft)}
+.mytag{display:inline-flex;align-items:center}
+.mytag button[data-tag]{border-radius:999px 0 0 999px;border-right:0}
+.mytag .rmtag{font-family:var(--ui);font-weight:700;font-size:11px;padding:1px 7px;border-radius:0 999px 999px 0;border:1.5px dashed var(--line);background:var(--white);color:var(--ink2);cursor:pointer}
+.mytag button[aria-pressed="true"] + .rmtag{border:1.5px solid var(--band);background:var(--band);color:var(--white)}
+.addtag{display:inline-flex;gap:3px;align-items:center}
+.addtag input{border:1.5px solid var(--head);border-radius:999px;padding:1px 10px;font-family:var(--ui);font-weight:600;font-size:12px;width:130px;background:var(--white)}
+.okbtn{border:0;background:var(--head);color:var(--white);border-radius:999px;width:24px;height:22px;cursor:pointer;font-size:12px}
+.picrow{display:flex;gap:10px;align-items:center}
+.picrow .prev{width:56px;height:56px;border-radius:4px;border:2px dashed var(--line);overflow:hidden;flex:none;background:var(--soft)}
+.picrow .prev img{width:100%;height:100%;object-fit:cover;display:block}
+.picrow input[type=file]{font-size:12px;min-width:0}
+.song-row{display:flex;flex-direction:column;gap:6px;border:2px dashed var(--line);border-radius:10px;padding:8px}
+.form-foot{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:12px}
+.hint{font-size:12.5px;color:var(--ink2);text-align:center;margin:0}
+/* card (preview) */
+#card{background-color:var(--card);background-image:radial-gradient(var(--card-dot) 1.6px,transparent 2px);background-size:14px 14px;border-radius:16px;padding:12px}
+#card .inner{background-color:var(--panel);background-image:radial-gradient(var(--panel-dot) 1.4px,transparent 1.8px);background-size:14px 14px}
+.c-title{padding:16px 16px 10px;text-align:center}
+.c-title .eyebrow{font-family:var(--ui);font-weight:700;font-size:12.5px;color:var(--ink2);letter-spacing:.06em;text-transform:lowercase}
+.c-title h2{font-family:var(--script);font-weight:400;font-size:clamp(26px,4vw,36px);line-height:1.6;margin-top:2px;overflow-wrap:anywhere}
+.ship-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;text-align:center;padding:4px 16px 14px}
+.who{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.frame{border:2px dashed var(--line);padding:5px;border-radius:4px;background:var(--white);width:150px;max-width:100%}
+.frame .pic{aspect-ratio:1;overflow:hidden;background:var(--soft);display:grid;place-items:center;color:var(--ink2);font-size:30px}
+.frame .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.who b{font-family:var(--serif);color:var(--head);font-size:18px;overflow-wrap:anywhere}
+.who small{font-size:12px;color:var(--ink2)}
+.heart{font-family:var(--serif);color:var(--head);font-size:34px}
+.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;padding:4px 16px 16px}
+.mini{border:2px dashed var(--line);background:rgba(255,255,255,.85);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:7px;min-width:0;container-type:inline-size}
+.psec{display:flex;align-items:center;gap:10px;margin-top:6px;font-family:var(--serif);font-weight:700;font-size:13px;color:var(--head)}
+.psec:first-child{margin-top:0}
+.psec::before,.psec::after{content:"";flex:1;border-top:2px dashed var(--line)}
+.psec::before{flex:0 0 10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:13.5px}
+.kv span:nth-child(odd){color:var(--head);font-family:var(--ui);font-weight:700}
+.kv span{overflow-wrap:anywhere;min-width:0}
+.pairs{display:flex;flex-wrap:wrap;gap:6px 8px}
+.toggle{display:flex;gap:3px;font-family:var(--ui);font-weight:700;font-size:12px;background:var(--soft);padding:3px;border-radius:999px}
+.toggle span{padding:0 9px;border-radius:999px;border:1.5px solid var(--line);background:var(--white);color:var(--ink2);white-space:nowrap}
+.toggle span.on{background:var(--band);color:var(--white);border-color:var(--band)}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 12px;font-size:13px}
+.hearts{display:grid;grid-template-columns:repeat(2,auto 1fr);gap:3px 10px;font-size:13px;align-items:center}
+.hearts span:nth-child(odd){font-family:var(--ui);font-weight:700;color:var(--head)}
+.hearts .h{color:var(--head);letter-spacing:2px}.hearts .h .off{color:var(--line)}
+@container (max-width:330px){.hearts{grid-template-columns:auto 1fr}.checks{grid-template-columns:1fr}}
+.us{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;padding:14px 16px}
+.us h3{font-size:15.5px;margin-bottom:2px}
+.us p{margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.player{border:2px dashed var(--line);background:rgba(255,255,255,.85);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.player .t{font-family:var(--serif);color:var(--head);font-size:16px}
+.track{width:100%;height:5px;border-radius:5px;background:var(--panel-dot);position:relative}
+.track::after{content:"";position:absolute;left:0;top:0;bottom:0;width:38%;background:var(--band);border-radius:5px}
+.track::before{content:"";position:absolute;left:38%;top:50%;width:13px;height:13px;margin:-6.5px 0 0 -6.5px;border-radius:50%;background:var(--head)}
+.ctrl{display:flex;gap:10px;color:var(--head)}
+.ctrl button{background:none;border:0;color:var(--head);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:6px}
+.ctrl button:disabled{opacity:.35;cursor:default}
+.why{font-size:13px;margin:4px 0 0;white-space:pre-wrap;background:var(--soft);border-radius:8px;padding:7px 10px;text-align:left;width:100%}
+.tagsec{display:flex;flex-direction:column;gap:10px;padding:14px 16px}
+.tagsec h4{margin:0;font-family:var(--ui);font-weight:700;font-size:12px;color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tagc{font-family:var(--ui);font-weight:700;font-size:12px;padding:1px 10px;border-radius:999px;background:var(--band);color:var(--white)}
+.blank{color:var(--ink2);opacity:.75;font-style:italic}
+.c-foot{text-align:center;padding:6px 16px 14px;font-style:italic;color:var(--ink2);font-size:12.5px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);background:var(--head);color:var(--white);padding:6px 18px;border-radius:999px;font-family:var(--ui);font-weight:700;font-size:13px;z-index:60}
+.confirm{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:13px}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .switch{display:flex}
+  .formpane{position:static;max-height:none}
+  .layout[data-show="form"] .previewpane{display:none}
+  .layout[data-show="preview"] .formpane{display:none}
+}
+@media (max-width:420px){.duo{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <h1>get to know me &amp; them! ♡</h1>
+  <p>fill in the form, watch your card update, then save it as a picture to share!</p>
+</header>
+<div class="switch" role="tablist" aria-label="View">
+  <button class="btn primary" data-show="form" role="tab" aria-selected="true">fill in</button>
+  <button class="btn" data-show="preview" role="tab" aria-selected="false">preview card</button>
+</div>
+<div class="layout" id="layout" data-show="form">
+  <section class="pane formpane" aria-label="Fill in your yumeship">
+    <div class="pane-title"><h2>fill me in ♥</h2></div>
+    <div class="inner" id="form"></div>
+  </section>
+  <section class="previewpane" aria-label="Your yumeship card">
+    <div id="card"></div>
+    <div class="form-foot" id="savebar"></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const SHIP_PERSON = [['age','Age'],['height','Height'],['occupation','Occupation'],['goodAt',"I'm good at"],['petName','Pet name for them'],['loveLang','Love language'],['favThing','Favorite thing about them'],['comfort','Comfort food / drink']];
+const PAIRS = [['spoon','Big spoon','Little spoon'],['conf','Confident','Shy'],['pda','PDA','Reserved'],['texts','Texts first','Waits for a text'],['clock','Morning person','Night owl'],['plans','Planner','Spontaneous'],['dates','Plans the dates','Gets spoiled'],['tease','Teaser','Gets teased'],['sorry','Apologizes first','Holds a grudge'],['jealousShow','Shows jealousy','Hides jealousy'],['affection','Showers affection','Shows it quietly'],['fellFirst','Fell first','Fell harder']];
+const CHECKS = [['housework','Housework'],['cooking','Cooking'],['protective','Protective'],['gifts','Gift giver'],['notes','Writes love notes'],['anniv','Remembers anniversaries'],['hoodies','Steals hoodies'],['cries','Cries at movies'],['petNames','Uses pet names'],['gamer','Gamer'],['driver','Drives on dates'],['photos','Takes all the photos']];
+const METERS = [['trust','Trust'],['clingy','Clingy'],['jealousy','Jealousy'],['romantic','Romantic'],['flirty','Flirty'],['patience','Patience'],['stubborn','Stubborn'],['soft','Soft for them'],['teasing','Teasing'],['chaos','Chaos']];
+const TAG_GROUPS = [
+  ['dynamic',['opposites attract','sunshine × grump','golden retriever × black cat','soft for only you','whipped for each other','bickering couple','he fell first','she fell harder','mutual pining','slow burn','friends to lovers','enemies to lovers','childhood friends','fake dating','secret relationship','protective','playfully possessive','domestic','long distance']],
+  ['love languages',['words of affirmation','quality time','physical touch','acts of service','gift giving']],
+  ['dates & preferences',['café dates','arcade dates','late-night drives','movie marathons','stargazing','shopping trips','gaming together','cooking together','matching outfits','couple items','pet names','hand-holding','forehead kisses','piggyback rides','lap sitting','cuddles','borrowing their clothes','doing their makeup']],
+  ['vibes',['sweet','fluffy','cozy','chaotic','comedic','angsty','soft × punk','pink × black']],
+];
+const KEY = 'yumeship-card-v1';
+const groupTags = n => [...(TAG_GROUPS.find(g=>g[0]===n)?.[1]||[]), ...((D.customTags||{})[n]||[])];
+const allGroupTags = () => new Set(TAG_GROUPS.flatMap(([n])=>groupTags(n)));
+let addingTo = null;
+const blank = () => ({title:'', madeBy:'', a:{name:'',from:''}, b:{name:'',from:''}, dynamic:'', howMet:'', gifts:'', songs:[{title:'',artist:'',why:''}], tags:[], customTags:{}});
+let D = blank(); let songIdx = 0; let downloads = null;
+try{ const saved = JSON.parse(localStorage.getItem(KEY)||'null'); if(saved && typeof saved==='object') D = {...blank(), ...saved}; }catch{}
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){ const t=document.createElement('div'); t.className='toast'; t.textContent=m; document.body.appendChild(t); setTimeout(()=>t.remove(),2200); }
+let saveTimer; function persist(){ clearTimeout(saveTimer); saveTimer=setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(D)); }catch{ /* storage full or blocked */ } }, 300); }
+const get = path => path.split('.').reduce((o,k)=>o?.[k], D);
+function set(path, v){ const ks=path.split('.'); let o=D; ks.slice(0,-1).forEach(k=>{ if(o[k]==null||typeof o[k]!=='object') o[k]={}; o=o[k]; }); o[ks.at(-1)]=v; }
+
+/* ---------- form ---------- */
+const txt = (path,label,ph='') => `<label class="f"><span>${label}</span><input type="text" data-path="${path}" value="${esc(get(path)||'')}" placeholder="${esc(ph)}"></label>`;
+const area = (path,label,ph='') => `<label class="f"><span>${label}</span><textarea data-path="${path}" placeholder="${esc(ph)}">${esc(get(path)||'')}</textarea></label>`;
+function personForm(k, label){
+  const p = D[k]||{};
+  return `<details class="sec"><summary><div class="band">${label}</div></summary><div class="fbody">
+    <div class="duo">${txt(k+'.name','Name', k==='a'?'your OC':'your F/O')}${txt(k+'.from','From', k==='a'?'e.g. my OC':'e.g. Genshin Impact')}</div>
+    <div class="f"><span>Picture</span><div class="picrow"><div class="prev">${p.img?`<img src="${p.img}" alt="">`:''}</div><input type="file" accept="image/*" data-pic="${k}" aria-label="Picture for ${label}">${p.img?`<button class="btn" type="button" data-clearpic="${k}">remove</button>`:''}</div></div>
+    <div class="sub">about them</div>
+    <div class="duo">${SHIP_PERSON.map(([key,l])=>txt(k+'.'+key,l)).join('')}</div>
+    <div class="sub">this or that</div>
+    ${PAIRS.map(([key,a,b])=>`<div class="pairrow"><span>${a} or ${b}?</span><div class="opts">${[['','—'],['a',a],['b',b]].map(([v,l])=>`<label><input type="radio" name="${k}-${key}" data-path="${k}.${key}" value="${v}" ${(p[key]||'')===v?'checked':''}> ${l}</label>`).join('')}</div></div>`).join('')}
+    <div class="sub">things they do</div>
+    <div class="opts">${CHECKS.map(([key,l])=>`<label><input type="checkbox" data-path="${k}.${key}" ${p[key]?'checked':''}> ${l}</label>`).join('')}</div>
+    <div class="sub">meters</div>
+    ${METERS.map(([key,l])=>`<label class="f"><span>${l}</span><select data-path="${k}.${key}" data-num>${[0,1,2,3,4,5].map(n=>`<option value="${n}" ${(+p[key]||0)===n?'selected':''}>${n?'♥'.repeat(n):'none'}</option>`).join('')}</select></label>`).join('')}
+  </div></details>`;
+}
+function renderForm(){
+  const sel = new Set(D.tags||[]); const known = allGroupTags();
+  const other = [...sel].filter(t=>!known.has(t));
+  document.getElementById('form').innerHTML = `
+    <details class="sec" open><summary><div class="band">the basics</div></summary><div class="fbody">
+      ${txt('title','Ship name','e.g. Ameria × Childe')}
+      ${txt('madeBy','Made by (your name or @)','@yourname')}
+    </div></details>
+    ${personForm('a','You / your OC')}
+    ${personForm('b','Your F/O')}
+    <details class="sec"><summary><div class="band">us</div></summary><div class="fbody">
+      ${area('dynamic','Our dynamic','how are you two together?')}
+      ${area('howMet','How we met')}
+      ${area('gifts','Gifts & keepsakes')}
+    </div></details>
+    <details class="sec"><summary><div class="band">our songs</div></summary><div class="fbody">
+      ${(D.songs||[]).map((s,i)=>`<div class="song-row"><div class="duo">${txt(`songs.${i}.title`,'Song')}${txt(`songs.${i}.artist`,'Artist')}</div>${area(`songs.${i}.why`,'Why is it your song?')}${D.songs.length>1?`<button class="btn" type="button" data-rmsong="${i}" style="align-self:flex-start">remove song</button>`:''}</div>`).join('')}
+      <button class="btn" type="button" data-addsong style="align-self:flex-start">+ add another song</button>
+    </div></details>
+    <details class="sec"><summary><div class="band">tags</div></summary><div class="fbody">
+      ${TAG_GROUPS.map(([n,l])=>{ const mine=(D.customTags||{})[n]||[]; return `<div class="sub">${n}</div><div class="tagpick">${l.map(t=>`<button type="button" data-tag="${esc(t)}" aria-pressed="${sel.has(t)}">${esc(t)}</button>`).join('')}${mine.map(t=>`<span class="mytag"><button type="button" data-tag="${esc(t)}" aria-pressed="${sel.has(t)}">${esc(t)}</button><button type="button" class="rmtag" data-rmtag="${esc(t)}" data-group="${esc(n)}" aria-label="Delete tag ${esc(t)}">✕</button></span>`).join('')}${addingTo===n?`<form class="addtag" data-tagform="${esc(n)}"><input type="text" maxlength="40" placeholder="new tag…" aria-label="New ${esc(n)} tag"><button class="okbtn" type="submit" aria-label="Add tag">✓</button></form>`:`<button type="button" class="plus" data-addto="${esc(n)}">+ add</button>`}</div>`; }).join('')}
+      ${other.length?`<div class="sub">other</div><div class="tagpick">${other.map(t=>`<button type="button" data-tag="${esc(t)}" aria-pressed="true">${esc(t)} ✕</button>`).join('')}</div>`:''}
+    </div></details>
+    <div class="form-foot" id="resetbar"><button class="btn" type="button" data-reset>start over</button></div>`;
+}
+
+/* ---------- card ---------- */
+function frame(img, name){ return `<div class="frame"><div class="pic">${img?`<img src="${img}" alt="${esc(name)}">`:'♡'}</div></div>`; }
+function sheet(p){
+  const hearts = n => `<span class="h">${[1,2,3,4,5].map(i=>i<=(+n||0)?'♥':'<span class="off">♥</span>').join('')}</span>`;
+  const facts = SHIP_PERSON.filter(([k])=>p[k]);
+  return `<div class="mini">
+    <div class="psec">about them</div>
+    ${facts.length?`<div class="kv">${facts.map(([k,l])=>`<span>${l}</span><span>${esc(p[k])}</span>`).join('')}</div>`:'<span class="blank">fill in the form ♡</span>'}
+    <div class="psec">this or that</div>
+    <div class="pairs">${PAIRS.map(([k,a,b])=>`<div class="toggle"><span class="${p[k]==='a'?'on':''}">${a}</span><span class="${p[k]==='b'?'on':''}">${b}</span></div>`).join('')}</div>
+    <div class="psec">things they do</div>
+    <div class="checks">${CHECKS.map(([k,l])=>`<span>${p[k]?'☑':'☐'} ${l}</span>`).join('')}</div>
+    <div class="psec">meters</div>
+    <div class="hearts">${METERS.map(([k,l])=>`<span>${l}</span>${hearts(p[k])}`).join('')}</div>
+  </div>`;
+}
+function renderCard(){
+  const a=D.a||{}, b=D.b||{};
+  const songs=(D.songs||[]).filter(s=>s.title||s.artist||s.why); songIdx=Math.min(songIdx, Math.max(0,songs.length-1)); const s=songs[songIdx];
+  const sel=new Set(D.tags||[]); const known=allGroupTags();
+  const groups=[...TAG_GROUPS.map(([n])=>[n,groupTags(n).filter(t=>sel.has(t))]), ['other',[...sel].filter(t=>!known.has(t))]].filter(g=>g[1].length);
+  document.getElementById('card').innerHTML = `<div class="inner">
+    <div class="c-title"><div class="eyebrow">get to know me &amp; them!</div><h2>${esc(D.title || ((a.name||'you')+' × '+(b.name||'them')))}</h2></div>
+    <div class="ship-top">
+      <div class="who">${frame(a.img,a.name)}<b>${esc(a.name||'you')}</b>${a.from?`<small>${esc(a.from)}</small>`:''}</div>
+      <div class="heart" aria-hidden="true">♥</div>
+      <div class="who">${frame(b.img,b.name)}<b>${esc(b.name||'them')}</b>${b.from?`<small>${esc(b.from)}</small>`:''}</div>
+    </div>
+    <div class="sheets">${sheet(a)}${sheet(b)}</div>
+    <div class="band">us</div>
+    <div class="us">
+      <div>
+        <h3>Our dynamic</h3><p>${D.dynamic?esc(D.dynamic):'<span class="blank">how are you two together?</span>'}</p>
+        ${D.howMet?`<h3>How we met</h3><p>${esc(D.howMet)}</p>`:''}
+        ${D.gifts?`<h3>Gifts & keepsakes</h3><p>${esc(D.gifts)}</p>`:''}
+      </div>
+      <div class="player">
+        <span class="blank" style="font-style:italic">our song${songs.length>1?'s':''}</span>
+        <span class="t">${s?esc(s.title||'untitled'):'no song yet'}</span>${s?.artist?`<small style="color:var(--ink2)">${esc(s.artist)}</small>`:''}
+        <div class="track" aria-hidden="true"></div>
+        <div class="ctrl"><button data-song="-1" ${songIdx<=0?'disabled':''} aria-label="Previous song">⏮</button><button disabled aria-hidden="true" tabindex="-1">▶</button><button data-song="1" ${songIdx>=songs.length-1?'disabled':''} aria-label="Next song">⏭</button></div>
+        ${songs.length>1?`<small style="color:var(--ink2);font-weight:700">${songIdx+1} of ${songs.length}</small>`:''}
+        ${s?.why?`<p class="why"><b style="color:var(--head)">why it's ours:</b> ${esc(s.why)}</p>`:''}
+      </div>
+    </div>
+    ${groups.length?`<div class="band">tags</div><div class="tagsec">${groups.map(([n,l])=>`<div><h4>${esc(n)}</h4><div class="tags">${l.map(t=>`<span class="tagc">${esc(t)}</span>`).join('')}</div></div>`).join('')}</div>`:''}
+    <div class="c-foot">${D.madeBy?`made by ${esc(D.madeBy)} ♡`:'♡'}</div>
+  </div>`;
+}
+function renderSave(){
+  document.getElementById('savebar').innerHTML = downloads
+    ? `<button class="btn primary" data-saveimg>save card as picture</button>`
+    : `<p class="hint">tip: take a screenshot of your card to share it ♡</p>`;
+}
+
+/* ---------- events ---------- */
+const formEl = document.getElementById('form');
+formEl.addEventListener('input', e => {
+  const el = e.target.closest('[data-path]'); if(!el) return;
+  let v = el.type==='checkbox' ? el.checked : el.value;
+  if(el.hasAttribute('data-num')) v = +v;
+  set(el.dataset.path, v); persist(); renderCard();
+});
+formEl.addEventListener('change', async e => {
+  const el = e.target.closest('[data-path]');
+  if(el && (el.type==='radio' || el.type==='checkbox' || el.tagName==='SELECT')){ let v = el.type==='checkbox' ? el.checked : el.value; if(el.hasAttribute('data-num')) v=+v; set(el.dataset.path, v); persist(); renderCard(); return; }
+  const pic = e.target.closest('[data-pic]'); if(!pic || !pic.files[0]) return;
+  try{ D[pic.dataset.pic].img = await shrink(pic.files[0]); persist(); renderForm(); openSection(pic.dataset.pic); renderCard(); }
+  catch{ toast("That picture couldn't be read. Try a PNG or JPG."); }
+});
+function openSection(k){ const idx = k==='a'?1:2; const d=formEl.querySelectorAll('details.sec')[idx]; if(d) d.open=true; }
+let confirmReset=false;
+formEl.addEventListener('click', e => {
+  const t = e.target;
+  const add = t.closest('[data-addto]'); if(add){ addingTo=add.dataset.addto; keepOpen(renderForm); const i=formEl.querySelector('.addtag input'); i&&i.focus(); return; }
+  const rt = t.closest('[data-rmtag]'); if(rt){ const g=rt.dataset.group, v=rt.dataset.rmtag; D.customTags={...(D.customTags||{})}; D.customTags[g]=(D.customTags[g]||[]).filter(x=>x!==v); D.tags=(D.tags||[]).filter(x=>x!==v); persist(); keepOpen(renderForm); renderCard(); return; }
+  const tag = t.closest('[data-tag]'); if(tag){ const v=tag.dataset.tag; const s=new Set(D.tags||[]); s.has(v)?s.delete(v):s.add(v); D.tags=[...s]; persist(); const open=[...formEl.querySelectorAll('details.sec')].map(d=>d.open); renderForm(); formEl.querySelectorAll('details.sec').forEach((d,i)=>d.open=open[i]); renderCard(); return; }
+  if(t.closest('[data-addsong]')){ D.songs=[...(D.songs||[]),{title:'',artist:'',why:''}]; persist(); keepOpen(renderForm); return; }
+  const rm=t.closest('[data-rmsong]'); if(rm){ D.songs.splice(+rm.dataset.rmsong,1); persist(); keepOpen(renderForm); renderCard(); return; }
+  const cp=t.closest('[data-clearpic]'); if(cp){ delete D[cp.dataset.clearpic].img; persist(); keepOpen(renderForm); renderCard(); return; }
+  if(t.closest('[data-reset]')){
+    if(!confirmReset){ confirmReset=true; document.getElementById('resetbar').innerHTML=`<div class="confirm">clear everything you filled in? <button class="btn" type="button" data-cancelreset>keep it</button><button class="btn primary" type="button" data-reset>yes, start over</button></div>`; return; }
+    confirmReset=false; D=blank(); songIdx=0; persist(); renderForm(); renderCard(); toast('Cleared'); return;
+  }
+  if(t.closest('[data-cancelreset]')){ confirmReset=false; keepOpen(renderForm); }
+});
+formEl.addEventListener('submit', e => {
+  const f=e.target.closest('[data-tagform]'); if(!f) return; e.preventDefault();
+  const g=f.dataset.tagform, v=f.querySelector('input').value.trim().toLowerCase();
+  if(v){ D.customTags={...(D.customTags||{})}; const list=D.customTags[g]||[]; if(!groupTags(g).includes(v)) D.customTags[g]=[...list, v]; D.tags=[...new Set([...(D.tags||[]), v])]; }
+  addingTo=null; persist(); keepOpen(renderForm); renderCard();
+});
+formEl.addEventListener('focusout', e => { const f=e.target.closest('[data-tagform]'); if(f && !f.contains(e.relatedTarget) && !f.querySelector('input').value.trim()){ addingTo=null; setTimeout(()=>keepOpen(renderForm),0); } });
+function keepOpen(fn){ const open=[...formEl.querySelectorAll('details.sec')].map(d=>d.open); fn(); formEl.querySelectorAll('details.sec').forEach((d,i)=>{ if(open[i]!=null) d.open=open[i]; }); }
+document.getElementById('card').addEventListener('click', e => { const b=e.target.closest('[data-song]'); if(!b) return; songIdx+=+b.dataset.song; renderCard(); });
+document.querySelector('.switch').addEventListener('click', e => {
+  const b=e.target.closest('[data-show]'); if(!b) return;
+  document.getElementById('layout').dataset.show=b.dataset.show;
+  document.querySelectorAll('.switch [data-show]').forEach(x=>{ const on=x===b; x.classList.toggle('primary',on); x.setAttribute('aria-selected',on); });
+  scrollTo(0,0);
+});
+document.getElementById('savebar').addEventListener('click', async e => {
+  if(!e.target.closest('[data-saveimg]') || !downloads) return;
+  const btn=e.target.closest('[data-saveimg]'); btn.disabled=true; btn.textContent='making your picture…';
+  try{
+    if(!window.html2canvas) throw new Error('no html2canvas');
+    const canvas = await html2canvas(document.getElementById('card'), {scale:2, backgroundColor:null, useCORS:true});
+    const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+    const name = (D.title||'my-yumeship').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'my-yumeship';
+    await downloads.save({filename: name+'.png', data: blob});
+  }catch(err){
+    if(err && err.code==='declined'){}
+    else if(err && ['unavailable','not_granted','capability_disabled','capability_removed'].includes(err.code)){ downloads=null; renderSave(); }
+    else toast("Couldn't make the picture. Try a screenshot instead.");
+  }
+  if(downloads){ btn.disabled=false; btn.textContent='save card as picture'; }
+});
+
+/* shrink pictures so they fit in browser storage */
+function shrink(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader(); r.onerror=rej;
+    r.onload=()=>{ const img=new Image(); img.onerror=rej; img.onload=()=>{
+      const max=420, k=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas');
+      c.width=Math.round(img.width*k); c.height=Math.round(img.height*k); c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      res(c.toDataURL('image/jpeg',0.85)); }; img.src=r.result; };
+    r.readAsDataURL(file);
+  });
+}
+
+renderForm(); renderCard(); renderSave();
+/* on GitHub Pages the browser can download files directly */
+downloads = { save: async ({filename, data}) => { const url = URL.createObjectURL(data); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url), 2000); } };
+renderSave();
+</script>
+
+</body>
+</html>
