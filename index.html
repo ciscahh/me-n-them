@@ -122,13 +122,19 @@ details.sec[open] summary .band::after{transform:translateY(-50%) rotate(180deg)
 .toggle{display:flex;gap:3px;font-family:var(--ui);font-weight:700;font-size:12px;background:var(--soft);padding:3px;border-radius:999px}
 .toggle span{padding:0 9px;border-radius:999px;border:1.5px solid var(--line);background:var(--white);color:var(--ink2);white-space:nowrap}
 .toggle span.on{background:var(--band);color:var(--white);border-color:var(--band)}
+.addwrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.guide{font-size:12px;color:var(--ink2)}
+.facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:6px}
+.fact{background:var(--soft);border-radius:10px;padding:5px 10px 6px;display:flex;flex-direction:column;min-width:0;border-left:3px solid var(--band)}
+.fl{font-family:var(--ui);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.fv{font-size:14px;color:#8a4566;overflow-wrap:anywhere;line-height:1.35}
 .chosen{display:flex;flex-wrap:wrap;gap:5px}
 .pick{font-family:var(--ui);font-weight:700;font-size:12.5px;padding:1px 10px;border-radius:999px;background:var(--band);color:var(--white);border:1.5px solid var(--band)}
 .pick.soft{background:var(--white);color:var(--head);border-color:var(--line)}
 .checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 12px;font-size:13px}
 .hearts{display:grid;grid-template-columns:repeat(2,auto 1fr);gap:3px 10px;font-size:13px;align-items:center}
 .hearts span:nth-child(odd){font-family:var(--ui);font-weight:700;color:var(--head)}
-.hearts .h{color:var(--head);letter-spacing:2px}.hearts .h .off{color:var(--line)}
+.hearts .h{color:#e46f9b;letter-spacing:2px;font-size:14px}.hearts .h .off{color:#e7b3c7}
 @container (max-width:330px){.hearts{grid-template-columns:auto 1fr}.checks{grid-template-columns:1fr}}
 .us{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;padding:14px 16px}
 .us h3{font-size:15.5px;margin-bottom:2px}
@@ -193,7 +199,7 @@ details.sec[open] summary .band::after{transform:translateY(-50%) rotate(180deg)
 const SHIP_PERSON = [['age','Age'],['height','Height'],['occupation','Occupation'],['goodAt',"I'm good at"],['petName','Pet name for them'],['loveLang','Love language'],['favThing','Favorite thing about them'],['comfort','Comfort food / drink']];
 const PAIRS = [['spoon','Big spoon','Little spoon'],['conf','Confident','Shy'],['pda','PDA','Reserved'],['texts','Texts first','Waits for a text'],['clock','Morning person','Night owl'],['plans','Planner','Spontaneous'],['dates','Plans the dates','Gets spoiled'],['tease','Teaser','Gets teased'],['sorry','Apologizes first','Holds a grudge'],['jealousShow','Shows jealousy','Hides jealousy'],['affection','Showers affection','Shows it quietly'],['fellFirst','Fell first','Fell harder']];
 const CHECKS = [['housework','Housework'],['cooking','Cooking'],['protective','Protective'],['gifts','Gift giver'],['notes','Writes love notes'],['anniv','Remembers anniversaries'],['hoodies','Steals hoodies'],['cries','Cries at movies'],['petNames','Uses pet names'],['gamer','Gamer'],['driver','Drives on dates'],['photos','Takes all the photos']];
-const METERS = [['trust','Trust'],['clingy','Clingy'],['jealousy','Jealousy'],['romantic','Romantic'],['flirty','Flirty'],['patience','Patience'],['stubborn','Stubborn'],['soft','Soft for them'],['teasing','Teasing'],['chaos','Chaos']];
+const METERS = [['trust','Trust'],['clingy','Clingy'],['jealousy','Jealousy'],['romantic','Romantic'],['flirty','Flirty'],['patience','Patience'],['stubborn','Stubborn'],['soft','Soft for them'],['teasing','Teasing'],['chaos','Chaotic']];
 const TAG_GROUPS = [
   ['dynamic',['opposites attract','sunshine × grump','golden retriever × black cat','soft for only you','whipped for each other','bickering couple','he fell first','she fell harder','mutual pining','slow burn','friends to lovers','enemies to lovers','childhood friends','fake dating','secret relationship','protective','playfully possessive','domestic','long distance']],
   ['love languages',['words of affirmation','quality time','physical touch','acts of service','gift giving']],
@@ -224,7 +230,7 @@ function personForm(k, label){
     <div class="sub">about them</div>
     <div class="duo">${SHIP_PERSON.map(([key,l])=>txt(k+'.'+key,l)).join('')}</div>
     ${(p.extraFacts||[]).map((x,i)=>`<div class="xrow"><input type="text" data-path="${k}.extraFacts.${i}.label" value="${esc(x.label||'')}" placeholder="your question" aria-label="Your question"><input type="text" data-path="${k}.extraFacts.${i}.value" value="${esc(x.value||'')}" placeholder="answer" aria-label="Answer"><button type="button" class="xbtn" data-rmx="${k}.extraFacts.${i}" aria-label="Remove">✕</button></div>`).join('')}
-    <button type="button" class="plusbtn" data-addfact="${k}">+ add your own</button>
+    <div class="addwrap"><button type="button" class="plusbtn" data-addfact="${k}">+ add your own</button><em class="guide">(example: likes, dislikes, pet peeves, etc!)</em></div>
     <div class="sub">this or that</div>
     ${PAIRS.map(([key,a,b])=>`<div class="pairrow"><span>${a} or ${b}?</span><div class="opts">${[['','—'],['a',a],['b',b]].map(([v,l])=>`<label><input type="radio" name="${k}-${key}" data-path="${k}.${key}" value="${v}" ${(p[key]||'')===v?'checked':''}> ${l}</label>`).join('')}</div></div>`).join('')}
     <div class="sub">things they do</div>
@@ -266,7 +272,7 @@ function renderForm(){
 /* ---------- card ---------- */
 function frame(img, name){ return `<div class="frame"><div class="pic">${img?`<img src="${img}" alt="${esc(name)}">`:'♡'}</div></div>`; }
 function sheet(p){
-  const hearts = n => `<span class="h">${[1,2,3,4,5].map(i=>i<=(+n||0)?'♥':'<span class="off">♥</span>').join('')}</span>`;
+  const hearts = n => `<span class="h">${[1,2,3,4,5].map(i=>i<=(+n||0)?'♥':'<span class="off">♡</span>').join('')}</span>`;
   const facts = [...SHIP_PERSON.filter(([k])=>p[k]).map(([k,l])=>[l,p[k]]), ...(p.extraFacts||[]).filter(x=>x.label||x.value).map(x=>[x.label||'—',x.value||''])];
   const picks = PAIRS.filter(([k])=>p[k]==='a'||p[k]==='b').map(([k,a,b])=>p[k]==='a'?a:b);
   const does = [...CHECKS.filter(([k])=>p[k]).map(([,l])=>l), ...(p.extraDo||[]).filter(Boolean)];
@@ -274,7 +280,7 @@ function sheet(p){
   const empty = '<span class="blank">fill in the form ♡</span>';
   return `<div class="mini">
     <div class="psec">about them</div>
-    ${facts.length?`<div class="kv">${facts.map(([l,v])=>`<span>${esc(l)}</span><span>${esc(v)}</span>`).join('')}</div>`:empty}
+    ${facts.length?`<div class="facts">${facts.map(([l,v])=>`<div class="fact"><span class="fl">${esc(l)}</span><span class="fv">${esc(v)||'—'}</span></div>`).join('')}</div>`:empty}
     <div class="psec">this or that</div>
     ${picks.length?`<div class="chosen">${picks.map(x=>`<span class="pick">${esc(x)}</span>`).join('')}</div>`:empty}
     <div class="psec">things they do</div>
